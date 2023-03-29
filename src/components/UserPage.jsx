@@ -5,6 +5,9 @@ import { useState } from 'react';
 
 function UserPage(props) {
   const [isMyFollowersClicked, setMyFollowersClick] = useState(false);
+  const [about, setAbout] = useState('');
+  const [aboutInput, setAboutInput] = useState(true);
+  const [aboutButton, setAboutButton] = useState('Edit');
   const [webInput, setWebInput] = useState(true);
   const [webButton, setWeb] = useState('Edit');
   const [infoInput, setInfoInput] = useState(true);
@@ -22,16 +25,23 @@ function UserPage(props) {
   const [college, setCollege] = useState('');
   const [password, setPassword] = useState('');
 
+  const [isInterestsClicked, setInterestClick] = useState(false);
+
   function handleHome() {
     setMyFollowersClick(false);
   }
 
   function handleMyFollowers() {
-    setMyFollowersClick(true);
+    setMyFollowersClick((value) => !value);
   }
   function handleSignOut() {
     // window.location.reload();
     props.handleSignOut();
+  }
+  function handleAboutChange(e) {
+    const { value } = e.target;
+
+    setAbout(value);
   }
   function handleLinkedinChange(e) {
     const { value } = e.target;
@@ -78,12 +88,16 @@ function UserPage(props) {
 
     setPassword(value);
   }
+  function handleAboutEdit() {
+    setAboutInput(false);
+    setAboutButton('Save');
+  }
   function handleWebEdit() {
     setWebInput(false);
     setWeb('Save');
   }
 
-  function handleInfoEdit() {
+  function handlePersonalInfoEdit() {
     setInfoInput(false);
     setInfo('Save');
   }
@@ -92,7 +106,36 @@ function UserPage(props) {
     setPass('Save');
   }
 
-  async function handleWebInfo() {
+  function handleInterestsClick() {
+    setInterestClick(true);
+  }
+
+  async function handleAbout(e) {
+    e.preventDefault();
+
+    try {
+      const res = await fetch('http://localhost:3001/about', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify([
+          {
+            userId: props.userId,
+            about: about,
+          },
+        ]),
+      })
+        .then((res) => res.json())
+        .then((data) => data !== 'poop' && props.newUserData(data));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function handleWebInfo(e) {
+    e.preventDefault();
+
     try {
       const res = await fetch('http://localhost:3001/web-info', {
         method: 'POST',
@@ -117,7 +160,9 @@ function UserPage(props) {
       console.log(err);
     }
   }
-  async function handlePersonalInfo() {
+  async function handlePersonalInfo(e) {
+    e.preventDefault();
+
     try {
       const res = await fetch('http://localhost:3001/personal-info', {
         method: 'POST',
@@ -138,7 +183,8 @@ function UserPage(props) {
       console.log(err);
     }
   }
-  async function handlePasswordInfo() {
+  async function handlePasswordInfo(e) {
+    e.preventDefault();
     try {
       const res = await fetch('http://localhost:3001/new-password', {
         method: 'POST',
@@ -169,154 +215,212 @@ function UserPage(props) {
           />
           <p className="py-2 text-3xl">Hello {props.userName}</p>
           <p className="text-lg">{props.email}</p>
-          <button onClick={handleSignOut}>Sign Out</button>
+          <div className="grid grid-cols-2">
+            <button onClick={handleSignOut}>Sign Out</button>
+            <button onClick={handleMyFollowers}>My Followers</button>
+          </div>
         </div>
         {!isMyFollowersClicked ? (
           <div className="px-8">
             <div className="aboutMe">
-              <p className="text-orange-500">ABOUT ME</p>
-              <textarea
-                className="rounded-lg w-[90%]"
-                name=""
-                id=""
-                cols="80"
-                rows="7"
-              ></textarea>
+              <form onSubmit={handleAbout}>
+                <div className="grid grid-cols-2 my-4">
+                  <p className="text-orange-500 text-lg">ABOUT ME</p>
+                  <button
+                    className="w-[25%] bg-orange-500 text-white border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg px-2 py-1 focus:bg-orange-500"
+                    onClick={handleAboutEdit}
+                    type={!aboutInput ? 'submit' : 'button'}
+                  >
+                    {aboutButton}
+                  </button>
+                </div>
+                <textarea
+                  className="rounded-lg w-[95%] focus:outline-none px-1 my-1"
+                  value={about}
+                  onChange={handleAboutChange}
+                  disabled={aboutInput}
+                  id=""
+                  cols="80"
+                  rows="7"
+                ></textarea>
+              </form>
             </div>
-            <div className="cipherMap my-4">Cipher Map goes here</div>
+            <div className="cipherMap my-4  text-lg">Cipher Map goes here</div>
             <div className="details">
-              <div className="grid grid-cols-2">
-                {' '}
-                <p className="heading">ON THE WEB</p>
-                <button
-                  className="w-[25%] bg-orange-500 text-white border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg px-2 py-1 focus:bg-orange-500"
-                  onClick={handleWebEdit}
-                  type={!webInput ? 'submit' : 'button'}
-                >
-                  {webButton}
-                </button>
-              </div>
-
-              <form className="grid grid-cols-1">
-                <label htmlFor="linkedIn">LinkedIn</label>
-                <input
-                  className="rounded focus:outline-none px-1 m-1"
-                  disabled={webInput}
-                  value={linkedin}
-                  onChange={handleLinkedinChange}
-                  type="text"
-                  name=""
-                  placeholder="LinkedIn"
-                  id="linkedIn"
-                />
-                <label htmlFor="github">GitHub</label>
-                <input
-                  className="rounded focus:outline-none px-1 m-1"
-                  disabled={webInput}
-                  value={github}
-                  onChange={handleGithubChange}
-                  type="text"
-                  name=""
-                  placeholder="GitHub"
-                  id="github"
-                />{' '}
-                <label htmlFor="facebook">Facebook</label>
-                <input
-                  className="rounded focus:outline-none px-1 m-1"
-                  disabled={webInput}
-                  value={facebook}
-                  onChange={handleFacebookChange}
-                  type="text"
-                  name=""
-                  placeholder="Facebook"
-                  id="facebook"
-                />{' '}
-                <label htmlFor="twitter">Twitter</label>
-                <input
-                  className="rounded focus:outline-none px-1 m-1"
-                  disabled={webInput}
-                  value={twitter}
-                  onChange={handleTwitterChange}
-                  type="text"
-                  name=""
-                  placeholder="Twitter"
-                  id="twitter"
-                />{' '}
-                <label htmlFor="instagram">Instagram</label>
-                <input
-                  className="rounded focus:outline-none px-1 m-1"
-                  disabled={webInput}
-                  value={instagram}
-                  onChange={handleInstaChange}
-                  type="text"
-                  name=""
-                  placeholder="Instagram"
-                  id="instagram"
-                />{' '}
-                <label htmlFor="website">Website</label>
-                <input
-                  className="rounded focus:outline-none px-1 m-1"
-                  disabled={webInput}
-                  value={website}
-                  onChange={handleWebsiteChange}
-                  type="text"
-                  name=""
-                  placeholder="Your Website"
-                  id="website"
-                />
+              <form onSubmit={handleWebInfo}>
+                <div className="grid grid-cols-2 my-4">
+                  {' '}
+                  <p className="heading  text-lg">ON THE WEB</p>
+                  <button
+                    className="w-[25%] bg-orange-500 text-white border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg px-2 py-1 focus:bg-orange-500"
+                    onClick={handleWebEdit}
+                    type={!webInput ? 'submit' : 'button'}
+                  >
+                    {webButton}
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 my-4">
+                  <div>
+                    <label htmlFor="linkedIn">LinkedIn</label>
+                    <br />
+                    <input
+                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                      disabled={webInput}
+                      value={linkedin}
+                      onChange={handleLinkedinChange}
+                      type="text"
+                      name=""
+                      placeholder={
+                        !props.userLinkedin ? 'Linkedin' : props.userLinkedin
+                      }
+                      id="linkedIn"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="github">GitHub</label>
+                    <br />
+                    <input
+                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                      disabled={webInput}
+                      value={github}
+                      onChange={handleGithubChange}
+                      type="text"
+                      name=""
+                      placeholder={
+                        !props.userGithub ? 'Github' : props.userGithub
+                      }
+                      id="github"
+                    />{' '}
+                  </div>
+                  <div>
+                    <label htmlFor="facebook">Facebook</label>
+                    <br />
+                    <input
+                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                      disabled={webInput}
+                      value={facebook}
+                      onChange={handleFacebookChange}
+                      type="text"
+                      name=""
+                      placeholder={
+                        !props.userFacebook ? 'Facebook' : props.userFacebook
+                      }
+                      id="facebook"
+                    />{' '}
+                  </div>
+                  <div>
+                    <label htmlFor="twitter">Twitter</label>
+                    <br />
+                    <input
+                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                      disabled={webInput}
+                      value={twitter}
+                      onChange={handleTwitterChange}
+                      type="text"
+                      name=""
+                      placeholder={
+                        !props.userTwitter ? 'Twitter' : props.userTwitter
+                      }
+                      id="twitter"
+                    />{' '}
+                  </div>
+                  <div>
+                    <label htmlFor="instagram">Instagram</label>
+                    <br />
+                    <input
+                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                      disabled={webInput}
+                      value={instagram}
+                      onChange={handleInstaChange}
+                      type="text"
+                      name=""
+                      placeholder={
+                        !props.userInstagram ? 'Instagram' : props.userInstagram
+                      }
+                      id="instagram"
+                    />{' '}
+                  </div>
+                  <div>
+                    <label htmlFor="website">Website</label>
+                    <br />
+                    <input
+                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                      disabled={webInput}
+                      value={website}
+                      onChange={handleWebsiteChange}
+                      type="text"
+                      name=""
+                      placeholder={
+                        !props.userWebsite ? 'Your Website' : props.userWebsite
+                      }
+                      id="website"
+                    />
+                  </div>
+                </div>
               </form>
             </div>
             <div className="professionalInfo">
-              <div className="grid grid-cols-2">
-                <p>PROFESSIONAL INFORMATION</p>
-                <button
-                  className="w-[25%] bg-orange-500 text-white border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg px-2 py-1 focus:bg-orange-500"
-                  onClick={handleInfoEdit}
-                  type={!infoInput ? 'submit' : 'button'}
-                >
-                  {infoButton}
-                </button>
-              </div>
-              <form className="grid grid-cols-1">
-                <label htmlFor="education">Highest Education</label>
-                <input
-                  className="rounded focus:outline-none px-1 m-1"
-                  disabled={infoInput}
-                  value={education}
-                  onChange={handleEducationChange}
-                  type="text"
-                  name=""
-                  placeholder="Graduation"
-                  id="graduation"
-                />
-                <label htmlFor="college">What do you do currently?</label>
-                <input
-                  className="rounded focus:outline-none px-1 m-1"
-                  disabled={infoInput}
-                  value={college}
-                  onChange={handleCollegeChange}
-                  type="text"
-                  name=""
-                  placeholder="College Student"
-                  id="college"
-                />
+              <form onSubmit={handlePersonalInfo}>
+                <div className="grid grid-cols-2 my-4">
+                  <p className=" text-lg">PROFESSIONAL INFORMATION</p>
+                  <button
+                    className="w-[25%] bg-orange-500 text-white border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg px-2 py-1 focus:bg-orange-500"
+                    onClick={handlePersonalInfoEdit}
+                    type={!infoInput ? 'submit' : 'button'}
+                  >
+                    {infoButton}
+                  </button>
+                </div>
+                <div className="grid grid-cols-2 my-4"></div>
+                <div>
+                  <label htmlFor="education">Highest Education</label>
+                  <br />
+                  <input
+                    className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                    disabled={infoInput}
+                    value={education}
+                    onChange={handleEducationChange}
+                    type="text"
+                    name=""
+                    placeholder={
+                      !props.userEducation ? 'Graduation' : props.userEducation
+                    }
+                    id="graduation"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="college">What do you do currently?</label>
+                  <br />
+                  <input
+                    className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                    disabled={infoInput}
+                    value={college}
+                    onChange={handleCollegeChange}
+                    type="text"
+                    name=""
+                    placeholder={
+                      !props.userCollege ? 'College Student' : props.userCollege
+                    }
+                    id="college"
+                  />
+                </div>
               </form>
             </div>
             <div className="security">
-              <div className="grid grid-cols-2">
-                <p>PASSWORD & SECURITY</p>
-                <button
-                  className="w-[25%] bg-orange-500 text-white border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg px-2 py-1 focus:bg-orange-500"
-                  onClick={handlePasswordEdit}
-                  type={!passwordInput ? 'submit' : 'button'}
-                >
-                  {passwordButton}
-                </button>
-              </div>
-              <form>
-                <label htmlFor="password">Password</label>
+              <form onSubmit={handlePasswordInfo}>
+                <div className="grid grid-cols-2 my-4">
+                  <p className="text-lg">PASSWORD & SECURITY</p>
+                  <button
+                    className="w-[25%] bg-orange-500 text-white border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg px-2 py-1 focus:bg-orange-500"
+                    onClick={handlePasswordEdit}
+                    type={!passwordInput ? 'submit' : 'button'}
+                  >
+                    {passwordButton}
+                  </button>
+                </div>
+                <label htmlFor="password">Password</label> <br />
                 <input
-                  className="rounded focus:outline-none px-1 m-1"
+                  className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
                   disabled={passwordInput}
                   value={password}
                   onChange={handlePasswordChange}
@@ -330,44 +434,53 @@ function UserPage(props) {
             <div className="interests px-[25%]">
               <div className="grid grid-cols-2">
                 <p>INTERESTS</p>
-                <button className="w-[25%] bg-orange-500 text-white border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg px-2 py-1 focus:bg-orange-500">
+                <button
+                  className="w-[25%] bg-orange-500 text-white border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg px-2 py-1 focus:bg-orange-500"
+                  onClick={handleInterestsClick}
+                >
                   Edit
                 </button>
               </div>
-              <div className="grid grid-cols-2">
-                <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
-                  Web Development
-                </button>
-                <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
-                  App Development
-                </button>
-                <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
-                  Game Development
-                </button>
-                <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
-                  Data Structures
-                </button>
-                <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
-                  Programming
-                </button>
-                <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
-                  Machine Learning
-                </button>
-                <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
-                  Data Science
-                </button>
-                <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
-                  Others
-                </button>
-              </div>
-              <div className="grid grid-cols-2">
-                <button className="bg-black text-gray-100 p-1 rounded-lg m-1">
-                  cancel
-                </button>
-                <button className="bg-orange-500 text-gray-100 p-1 rounded-lg m-1">
-                  save
-                </button>
-              </div>
+              {isInterestsClicked ? (
+                <div>
+                  <div className="grid grid-cols-2">
+                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                      Web Development
+                    </button>
+                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                      App Development
+                    </button>
+                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                      Game Development
+                    </button>
+                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                      Data Structures
+                    </button>
+                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                      Programming
+                    </button>
+                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                      Machine Learning
+                    </button>
+                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                      Data Science
+                    </button>
+                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                      Others
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-2">
+                    <button className="bg-black text-gray-100 p-1 rounded-lg m-1">
+                      cancel
+                    </button>
+                    <button className="bg-orange-500 text-gray-100 p-1 rounded-lg m-1">
+                      save
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                ''
+              )}
             </div>
           </div>
         ) : (

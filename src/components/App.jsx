@@ -25,7 +25,7 @@ function App() {
   // }
   function login() {
     // setSignClick(false);
-    alert('Logged in');
+    console.log('Logged in');
   }
   function loginError() {
     window.alert('user not found,please register or try again');
@@ -69,6 +69,14 @@ function App() {
             userName={userInfo.username}
             email={userInfo.email}
             followers={userInfo.followers}
+            userLinkedin={userInfo.linkedin}
+            userGithub={userInfo.github}
+            userInstagram={userInfo.instagram}
+            userFacebook={userInfo.facebook}
+            userTwitter={userInfo.twitter}
+            userWebsite={userInfo.website}
+            userEducation={userInfo.education}
+            userCollege={userInfo.college}
             handleSignOut={handleSignOut}
           />
         )}
