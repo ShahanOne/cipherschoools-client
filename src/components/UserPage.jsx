@@ -114,7 +114,7 @@ function UserPage(props) {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:3001/about', {
+      const res = await fetch('https://cipherschools-server.cyclic.app/about', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -137,23 +137,26 @@ function UserPage(props) {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:3001/web-info', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify([
-          {
-            userId: props.userId,
-            linkedin: linkedin,
-            github: github,
-            facebook: facebook,
-            instagram: instagram,
-            twitter: twitter,
-            website: website,
+      const res = await fetch(
+        'https://cipherschools-server.cyclic.app/web-info',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        ]),
-      })
+          body: JSON.stringify([
+            {
+              userId: props.userId,
+              linkedin: linkedin,
+              github: github,
+              facebook: facebook,
+              instagram: instagram,
+              twitter: twitter,
+              website: website,
+            },
+          ]),
+        }
+      )
         .then((res) => res.json())
         .then((data) => data !== 'poop' && props.newUserData(data));
     } catch (err) {
@@ -164,19 +167,22 @@ function UserPage(props) {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:3001/personal-info', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify([
-          {
-            userId: props.userId,
-            education: education,
-            college: college,
+      const res = await fetch(
+        'https://cipherschools-server.cyclic.app/personal-info',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        ]),
-      })
+          body: JSON.stringify([
+            {
+              userId: props.userId,
+              education: education,
+              college: college,
+            },
+          ]),
+        }
+      )
         .then((res) => res.json())
         .then((data) => data !== 'poop' && props.newUserData(data));
     } catch (err) {
@@ -186,18 +192,21 @@ function UserPage(props) {
   async function handlePasswordInfo(e) {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:3001/new-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify([
-          {
-            userId: props.userId,
-            password: password,
+      const res = await fetch(
+        'https://cipherschools-server.cyclic.app/new-password',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        ]),
-      })
+          body: JSON.stringify([
+            {
+              userId: props.userId,
+              password: password,
+            },
+          ]),
+        }
+      )
         .then((res) => res.json())
         .then((data) => data !== 'poop' && props.newUserData(data));
     } catch (err) {

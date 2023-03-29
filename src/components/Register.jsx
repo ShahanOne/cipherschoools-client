@@ -24,19 +24,22 @@ function Register(props) {
     e.preventDefault();
     props.onRegister();
     try {
-      const res = await fetch('http://localhost:3001/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify([
-          {
-            username: userName,
-            email: email,
-            password: password,
+      const res = await fetch(
+        'https://cipherschools-server.cyclic.app/register',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        ]),
-      })
+          body: JSON.stringify([
+            {
+              username: userName,
+              email: email,
+              password: password,
+            },
+          ]),
+        }
+      )
         .then((res) => res.json())
         .then((data) => console.log(data));
     } catch (err) {
