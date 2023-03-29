@@ -462,28 +462,28 @@ function UserPage(props) {
               {isInterestsClicked ? (
                 <div>
                   <div className="grid grid-cols-2">
-                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                    <button className="bg-gray-500 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
                       Web Development
                     </button>
-                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                    <button className="bg-gray-500 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
                       App Development
                     </button>
-                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                    <button className="bg-gray-500 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
                       Game Development
                     </button>
-                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                    <button className="bg-gray-500 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
                       Data Structures
                     </button>
-                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                    <button className="bg-gray-500 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
                       Programming
                     </button>
-                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                    <button className="bg-gray-500 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
                       Machine Learning
                     </button>
-                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                    <button className="bg-gray-500 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
                       Data Science
                     </button>
-                    <button className="bg-slate-200 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
+                    <button className="bg-gray-500 border-none hover:bg-orange-400 hover:text-gray-100 rounded-lg p-2 m-2 focus:bg-orange-500">
                       Others
                     </button>
                   </div>
