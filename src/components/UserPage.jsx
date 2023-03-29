@@ -215,18 +215,27 @@ function UserPage(props) {
   }
   return (
     <>
-      <div className="font-fira py-4 bg-slate-100">
-        <div className="userPageText px-4 bg-orange-300 md:my-6 text-gray-600">
-          <img
-            className="rounded-full inline-block w-28 md:w-40"
-            src="/billie.webp"
-            alt=""
-          />
-          <p className="py-2 text-3xl">Hello {props.userName}</p>
-          <p className="text-lg">{props.email}</p>
-          <div className="grid grid-cols-2">
-            <button onClick={handleSignOut}>Sign Out</button>
-            <button onClick={handleMyFollowers}>My Followers</button>
+      <div className="font-fira py-4 bg-gray-700 text-gray-200">
+        <div className="userPageText bg-orange-500 my-8">
+          <p className="py-2 px-2 text-3xl">Hello {props.userName}</p>
+          <p className="text-lg pb-4 px-2">{props.email}</p>
+          <div className="grid grid-cols-2 text-center py-2 bg-slate-700">
+            <div>
+              <button
+                className="bg-slate-500 hover:bg-slate-600 rounded shadow-lg p-2"
+                onClick={handleSignOut}
+              >
+                Sign Out
+              </button>
+            </div>
+            <div>
+              <button
+                className="bg-slate-500 hover:bg-slate-600 rounded shadow-lg p-2"
+                onClick={handleMyFollowers}
+              >
+                My Followers
+              </button>
+            </div>
           </div>
         </div>
         {!isMyFollowersClicked ? (
@@ -244,7 +253,7 @@ function UserPage(props) {
                   </button>
                 </div>
                 <textarea
-                  className="rounded-lg w-[95%] focus:outline-none px-1 my-1"
+                  className="rounded-lg w-[95%] focus:outline-none px-1 my-1 bg-gray-500"
                   value={about}
                   onChange={handleAboutChange}
                   disabled={aboutInput}
@@ -273,7 +282,7 @@ function UserPage(props) {
                     <label htmlFor="linkedIn">LinkedIn</label>
                     <br />
                     <input
-                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1 bg-gray-500"
                       disabled={webInput}
                       value={linkedin}
                       onChange={handleLinkedinChange}
@@ -289,7 +298,7 @@ function UserPage(props) {
                     <label htmlFor="github">GitHub</label>
                     <br />
                     <input
-                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1 bg-gray-500"
                       disabled={webInput}
                       value={github}
                       onChange={handleGithubChange}
@@ -305,7 +314,7 @@ function UserPage(props) {
                     <label htmlFor="facebook">Facebook</label>
                     <br />
                     <input
-                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1 bg-gray-500"
                       disabled={webInput}
                       value={facebook}
                       onChange={handleFacebookChange}
@@ -321,7 +330,7 @@ function UserPage(props) {
                     <label htmlFor="twitter">Twitter</label>
                     <br />
                     <input
-                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1 bg-gray-500"
                       disabled={webInput}
                       value={twitter}
                       onChange={handleTwitterChange}
@@ -337,7 +346,7 @@ function UserPage(props) {
                     <label htmlFor="instagram">Instagram</label>
                     <br />
                     <input
-                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1 bg-gray-500"
                       disabled={webInput}
                       value={instagram}
                       onChange={handleInstaChange}
@@ -353,7 +362,7 @@ function UserPage(props) {
                     <label htmlFor="website">Website</label>
                     <br />
                     <input
-                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                      className="rounded focus:outline-none w-[90%] h-8 px-1 my-1 bg-gray-500"
                       disabled={webInput}
                       value={website}
                       onChange={handleWebsiteChange}
@@ -385,7 +394,7 @@ function UserPage(props) {
                   <label htmlFor="education">Highest Education</label>
                   <br />
                   <input
-                    className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                    className="rounded focus:outline-none w-[90%] h-8 px-1 my-1 bg-gray-500"
                     disabled={infoInput}
                     value={education}
                     onChange={handleEducationChange}
@@ -401,7 +410,7 @@ function UserPage(props) {
                   <label htmlFor="college">What do you do currently?</label>
                   <br />
                   <input
-                    className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                    className="rounded focus:outline-none w-[90%] h-8 px-1 my-1 bg-gray-500"
                     disabled={infoInput}
                     value={college}
                     onChange={handleCollegeChange}
@@ -429,7 +438,7 @@ function UserPage(props) {
                 </div>
                 <label htmlFor="password">Password</label> <br />
                 <input
-                  className="rounded focus:outline-none w-[90%] h-8 px-1 my-1"
+                  className="rounded focus:outline-none w-[90%] h-8 px-1 my-1 bg-gray-500"
                   disabled={passwordInput}
                   value={password}
                   onChange={handlePasswordChange}

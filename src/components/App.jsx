@@ -44,7 +44,6 @@ function App() {
   }
   return (
     <div className="mainDiv">
-      <p>Welcome to CipherSchools</p>
       <div>
         {!isAuthenticated ? (
           logOrRegister ? (
